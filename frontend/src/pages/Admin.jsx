@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/Card";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+import { API_BASE } from "../config/api";
 
 function Admin() {
   const navigate = useNavigate();
