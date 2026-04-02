@@ -13,16 +13,36 @@ import instructorRoutes from "./modules/instructor/instructor.route.js";
 dotenv.config();
 
 const app = express();
+const isProduction = process.env.NODE_ENV === "production";
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(express.json());
 app.use(cookieParser());
+app.set("trust proxy", 1);
 
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("Not allowed by CORS"));
+  },
   credentials: true
 }));
 
 mongoDBConnect();
+
+const cookieOptions = {
+  httpOnly: true,
+  sameSite: isProduction ? "none" : "lax",
+  secure: isProduction,
+  maxAge: 1000 * 60 * 60 * 24 * 7
+};
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -32,10 +52,11 @@ app.post("/login", async (req, res) => {
   if (admin && await bcrypt.compare(password, admin.password)) {
     const token = jwt.sign(
       { id: admin._id, userType: "admin" },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, cookieOptions);
     return res.json({ userType: "admin" });
   }
 
@@ -44,10 +65,11 @@ app.post("/login", async (req, res) => {
   if (instructor && await bcrypt.compare(password, instructor.password)) {
     const token = jwt.sign(
       { id: instructor._id, userType: "instructor" },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
     );
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, cookieOptions);
     return res.json({ userType: "instructor" });
   }
 
