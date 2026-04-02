@@ -16,8 +16,10 @@ const app = express();
 const isProduction = process.env.NODE_ENV === "production";
 const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/^"|"$/g, "").replace(/\/$/, ""))
   .filter(Boolean);
+
+const normalizeOrigin = (origin) => origin.trim().replace(/\/$/, "");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,7 +27,15 @@ app.set("trust proxy", 1);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin) {
+      callback(null, true);
+      return;
+    }
+
+    const normalizedOrigin = normalizeOrigin(origin);
+    const isNetlify = normalizedOrigin.endsWith(".netlify.app");
+
+    if (allowedOrigins.includes(normalizedOrigin) || isNetlify) {
       callback(null, true);
       return;
     }
@@ -45,35 +55,40 @@ const cookieOptions = {
 };
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  try {
+    const { username, password } = req.body;
 
-  const admin = await Admin.findOne({ username });
+    const admin = await Admin.findOne({ username });
 
-  if (admin && await bcrypt.compare(password, admin.password)) {
-    const token = jwt.sign(
-      { id: admin._id, userType: "admin" },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    if (admin && await bcrypt.compare(password, admin.password)) {
+      const token = jwt.sign(
+        { id: admin._id, userType: "admin" },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
 
-    res.cookie("token", token, cookieOptions);
-    return res.json({ userType: "admin" });
+      res.cookie("token", token, cookieOptions);
+      return res.json({ userType: "admin" });
+    }
+
+    const instructor = await Instructor.findOne({ username });
+
+    if (instructor && await bcrypt.compare(password, instructor.password)) {
+      const token = jwt.sign(
+        { id: instructor._id, userType: "instructor" },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
+
+      res.cookie("token", token, cookieOptions);
+      return res.json({ userType: "instructor" });
+    }
+
+    return res.status(401).json({ message: "Invalid Credentials" });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Server Error" });
   }
-
-  const instructor = await Instructor.findOne({ username });
-
-  if (instructor && await bcrypt.compare(password, instructor.password)) {
-    const token = jwt.sign(
-      { id: instructor._id, userType: "instructor" },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    res.cookie("token", token, cookieOptions);
-    return res.json({ userType: "instructor" });
-  }
-
-  return res.status(401).json({ message: "Invalid Credentials" });
 });
 
 app.use("/admin", adminRoutes);
