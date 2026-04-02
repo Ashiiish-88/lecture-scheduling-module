@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "69ce2534a2ae7c56e9d54c76",
+    "title": "Node API Design",
+    "description": "Designing clean backend APIs",
+    "level": "Intermediate",
+    "image": "https://placehold.co/600x400",
+    "__v": 0
+  },
+  {
+    "_id": "69ce2534a2ae7c56e9d54c75",
+    "title": "MERN Fundamentals",
+    "description": "Core MERN stack concepts",
+    "level": "Beginner",
+    "image": "https://placehold.co/600x400",
+    "__v": 0
+  },
+  {
+    "_id": "69ce2fd63380b1b3c35a6af5",
+    "title": "Computer Networks",
+    "description": "Introduction to computer networking",
+    "level": "A",
+    "image": "erfgre",
+    "__v": 0
+  }
+]

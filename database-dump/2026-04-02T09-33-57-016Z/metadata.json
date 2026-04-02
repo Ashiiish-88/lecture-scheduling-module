@@ -1,0 +1,10 @@
+{
+  "exportedAt": "2026-04-02T09:33:57.111Z",
+  "databaseName": "lectureDB",
+  "files": [
+    "admins.json",
+    "instructors.json",
+    "courses.json",
+    "lectures.json"
+  ]
+}

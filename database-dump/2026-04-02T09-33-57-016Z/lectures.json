@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "69ce2534a2ae7c56e9d54c7a",
+    "title": "REST API Patterns",
+    "description": "Routes, controllers, and validation",
+    "date": "2026-04-06T00:00:00.000Z",
+    "course": "69ce2534a2ae7c56e9d54c76",
+    "instructor": "69ce2534a2ae7c56e9d54c71",
+    "__v": 0
+  },
+  {
+    "_id": "69ce2534a2ae7c56e9d54c79",
+    "title": "Intro to MERN",
+    "description": "Overview and setup",
+    "date": "2026-04-05T00:00:00.000Z",
+    "course": "69ce2534a2ae7c56e9d54c75",
+    "instructor": "69ce2534a2ae7c56e9d54c71",
+    "__v": 0
+  },
+  {
+    "_id": "69ce30653380b1b3c35a6af8",
+    "title": "Intro to CN",
+    "description": "Introductory lecture",
+    "date": "2026-04-03T00:00:00.000Z",
+    "course": "69ce2fd63380b1b3c35a6af5",
+    "instructor": "69ce2534a2ae7c56e9d54c71",
+    "__v": 0
+  },
+  {
+    "_id": "69ce3407efaf4fb5a1b9edd8",
+    "title": "part-1",
+    "description": "part-1",
+    "date": "2026-04-05T00:00:00.000Z",
+    "course": "69ce2fd63380b1b3c35a6af5",
+    "instructor": "69ce2534a2ae7c56e9d54c72",
+    "__v": 0
+  }
+]
