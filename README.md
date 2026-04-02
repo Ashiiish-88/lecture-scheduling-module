@@ -71,62 +71,6 @@ Protected Instructor:
 
 1. GET /instructor/lectures
 
-## Deployment
-
-Detailed deployment steps are available in DEPLOYMENT.md.
-
-Deployment targets:
-
-1. Backend: Railway (service root: backend)
-2. Frontend: Netlify (base directory: frontend)
-
-## Credentials for Review Submission
-
-Add your final hosted values before submission:
-
-1. Admin login:
-	- username: <admin_username>
-	- password: <admin_password>
-2. Instructor login:
-	- username: <instructor_username>
-	- password: <instructor_password>
-
 ## Database Dump
 
-Provide a MongoDB dump in your submission package.
-
-Example command:
-
-1. mongodump --uri="<your_mongo_uri>" --out="./database-dump"
-
-## What To Share With Ideamagix
-
-Share all of the following:
-
-1. Live project URL (Netlify frontend)
-2. Backend server URL (Railway API base URL)
-3. Admin login credentials
-4. Instructor login credentials
-5. Server credentials requested by company (if explicitly required by your HR contact)
-6. Screen recording drive link (public access enabled)
-7. Source code link:
-	- Git repository URL or
-	- Google Drive link
-8. Database dump file/folder
-9. This README.md with routes and setup details
-
-## Submission Email Format
-
-Subject:
-
-1. Your Name - Review Test Assignment
-
-Body checklist:
-
-1. Frontend live URL
-2. Backend live URL
-3. Admin credentials
-4. Instructor credentials
-5. Screen recording link
-6. Code repository/drive link
-7. Database dump link/file reference
+check folder database-dump in repo
